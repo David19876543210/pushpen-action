@@ -16,13 +16,14 @@ inputs:
   github-token:
     description: >
       Token used to read repository content and open/update pull requests.
-      Defaults to the workflow's automatically-provided token
-      (${{ github.token }}). This token is forwarded to Pushpen for the
-      duration of this single request only — it is never stored. Your
-      workflow's `permissions:` block must grant it `contents: write` and
-      `pull-requests: write` (see this repo's README).
+      Optional — if not set, the action reads GITHUB_TOKEN directly from the
+      job's environment, which is already present whenever your workflow's
+      permissions block grants contents/pull-requests access (see this
+      repo's README). Only set this explicitly if you need to override it
+      with a different token (e.g. a custom PAT). This token is forwarded to
+      Pushpen for the duration of this single request only — it is never
+      stored.
     required: false
-    default: ${{ github.token }}
   doc-types:
     description: >
       Comma-separated list of doc types to generate: readme, changelog,

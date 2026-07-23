@@ -74,7 +74,7 @@ on:
 | Input | Required | Default | Description |
 |---|---|---|---|
 | `api-key` | Yes | — | Your Pushpen API key. Pass via `secrets.PUSHPEN_API_KEY` — never commit it directly. |
-| `github-token` | No | `${{ github.token }}` | Token used to read the repo and open/update PRs. The default (GitHub's automatically-provided token) is correct for almost every setup. |
+| `github-token` | No | — (falls back to `GITHUB_TOKEN` from the job environment) | Token used to read the repo and open/update PRs. You don't need to set this — it's already present in the environment whenever your `permissions:` block grants `contents`/`pull-requests` access. Only set it explicitly to override with a different token (e.g. a custom PAT). |
 | `doc-types` | No | your plan's defaults | Comma-separated subset of `readme,changelog,api-docs,onboarding`. Can only narrow your plan's defaults, never expand past them (e.g. a free-plan key still only generates `readme` and `changelog` even if you list all four). |
 | `api-base-url` | No | `https://pushpen.dev` | Override for testing against a non-production Pushpen deployment. |
 
