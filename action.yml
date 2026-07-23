@@ -1,0 +1,48 @@
+name: 'Pushpen Docs'
+description: 'Automatically generate and update README, CHANGELOG, API docs, and onboarding guides from your code changes — powered by Pushpen (pushpen.dev). Reuses the same fact-sheet-grounded, patch-based generation as the Pushpen dashboard.'
+author: 'Pushpen'
+branding:
+  icon: 'file-text'
+  color: 'purple'
+
+inputs:
+  api-key:
+    description: >
+      Your Pushpen API key. Create one at pushpen.dev/dashboard under
+      Settings -> API Keys, then store it as a repository secret (Settings ->
+      Secrets and variables -> Actions) and pass it as secrets.PUSHPEN_API_KEY.
+      Never commit this value directly in your workflow file.
+    required: true
+  github-token:
+    description: >
+      Token used to read repository content and open/update pull requests.
+      Defaults to the workflow's automatically-provided token
+      (${{ github.token }}). This token is forwarded to Pushpen for the
+      duration of this single request only — it is never stored. Your
+      workflow's `permissions:` block must grant it `contents: write` and
+      `pull-requests: write` (see this repo's README).
+    required: false
+    default: ${{ github.token }}
+  doc-types:
+    description: >
+      Comma-separated list of doc types to generate: readme, changelog,
+      api-docs, onboarding. Overrides your Pushpen plan's defaults, but only
+      DOWNWARD — a free-plan key still only gets readme and changelog even if
+      you list all four here. Leave unset to use your plan's defaults.
+    required: false
+  api-base-url:
+    description: 'Pushpen API base URL. Override only for local/staging testing against a non-production Pushpen deployment.'
+    required: false
+    default: 'https://pushpen.dev'
+
+outputs:
+  generated:
+    description: 'Comma-separated list of doc types actually generated this run (empty if nothing was justified by this push).'
+  pr-url:
+    description: 'URL of the pull request Pushpen opened, if any. Empty when auto-commit is enabled and changes were committed directly instead, or when nothing was generated.'
+  connected:
+    description: '"true" if this run auto-connected the repository to your Pushpen account (its first-ever request), "false" otherwise.'
+
+runs:
+  using: 'node20'
+  main: 'dist/index.js'

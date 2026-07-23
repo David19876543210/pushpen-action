@@ -1,0 +1,25 @@
+{
+  "name": "pushpen-action",
+  "version": "1.0.0",
+  "private": true,
+  "description": "GitHub Action wrapper for Pushpen (pushpen.dev) documentation generation.",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --platform=node --target=node20 --outfile=dist/index.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@actions/core": "^3.0.1",
+    "@actions/github": "^9.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "esbuild": "^0.28.1",
+    "typescript": "^5.7.2"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/David19876543210/pushpen-action.git"
+  }
+}
