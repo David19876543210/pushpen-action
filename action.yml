@@ -1,5 +1,5 @@
 name: 'Pushpen Docs'
-description: 'Automatically generate and update README, CHANGELOG, API docs, and onboarding guides from your code changes — powered by Pushpen (pushpen.dev). Reuses the same fact-sheet-grounded, patch-based generation as the Pushpen dashboard.'
+description: 'Generates README, CHANGELOG, API docs, and onboarding guides from your code and opens a PR on every push.'
 author: 'Pushpen'
 branding:
   icon: 'file-text'
