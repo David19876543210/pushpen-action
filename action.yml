@@ -16,13 +16,12 @@ inputs:
   github-token:
     description: >
       Token used to read repository content and open/update pull requests.
-      Optional — if not set, the action reads GITHUB_TOKEN directly from the
-      job's environment, which is already present whenever your workflow's
-      permissions block grants contents/pull-requests access (see this
-      repo's README). Only set this explicitly if you need to override it
-      with a different token (e.g. a custom PAT). This token is forwarded to
-      Pushpen for the duration of this single request only — it is never
-      stored.
+      Pass it explicitly from secrets.GITHUB_TOKEN in your workflow's with:
+      block (see this repo's README for the exact syntax) — GitHub does not
+      inject GITHUB_TOKEN into a step's environment automatically just
+      because permissions: grants scopes, so this can't be defaulted inside
+      the action itself. This token is forwarded to Pushpen for the
+      duration of this single request only — it is never stored.
     required: false
   doc-types:
     description: >

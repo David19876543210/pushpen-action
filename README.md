@@ -35,11 +35,14 @@ jobs:
       - uses: David19876543210/pushpen-action@v1
         with:
           api-key: ${{ secrets.PUSHPEN_API_KEY }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-### Required permissions
+`github-token` must be passed explicitly, exactly as shown — GitHub does not inject `GITHUB_TOKEN` into a step's environment automatically just because `permissions:` grants scopes; every action that needs it has to receive it through `with:` like this. `secrets.GITHUB_TOKEN` is the repository's automatically-provisioned token (nothing to create or store yourself), scoped by the `permissions:` block below.
 
-Pushpen opens pull requests (or commits directly, if you've enabled auto-commit for this repo in the dashboard) using the token forwarded from this workflow run. Without both of these, generation will fail on the delivery step:
+### Required permissions and token
+
+Pushpen opens pull requests (or commits directly, if you've enabled auto-commit for this repo in the dashboard) using the token forwarded from this workflow run. You need both the `permissions:` block below **and** the explicit `github-token: ${{ secrets.GITHUB_TOKEN }}` line in `with:` (shown in the example above) — without either one, generation will fail on the delivery step:
 
 ```yaml
 permissions:
@@ -74,7 +77,7 @@ on:
 | Input | Required | Default | Description |
 |---|---|---|---|
 | `api-key` | Yes | — | Your Pushpen API key. Pass via `secrets.PUSHPEN_API_KEY` — never commit it directly. |
-| `github-token` | No | — (falls back to `GITHUB_TOKEN` from the job environment) | Token used to read the repo and open/update PRs. You don't need to set this — it's already present in the environment whenever your `permissions:` block grants `contents`/`pull-requests` access. Only set it explicitly to override with a different token (e.g. a custom PAT). |
+| `github-token` | No (but see note) | — | Token used to read the repo and open/update PRs. Pass `${{ secrets.GITHUB_TOKEN }}` explicitly as shown above — GitHub does not inject it into a step's environment automatically. Only omit or override this if you're supplying a different token (e.g. a custom PAT) some other way. |
 | `doc-types` | No | your plan's defaults | Comma-separated subset of `readme,changelog,api-docs,onboarding`. Can only narrow your plan's defaults, never expand past them (e.g. a free-plan key still only generates `readme` and `changelog` even if you list all four). |
 | `api-base-url` | No | `https://pushpen.dev` | Override for testing against a non-production Pushpen deployment. |
 
@@ -95,7 +98,7 @@ The first time this Action runs against a repository, Pushpen automatically conn
 Functionally, nothing — same generation pipeline, same plan limits, same fact-sheet grounding and audit. The only difference is *how* Pushpen gets access to your repository:
 
 - **Dashboard/webhook**: Pushpen stores a GitHub OAuth token for your account and reads your repo via the GitHub API whenever a webhook fires.
-- **This Action**: nothing is stored. Each run forwards its own short-lived, workflow-scoped `GITHUB_TOKEN` to Pushpen for the duration of that one request, then the token expires when the job ends. Only your account-wide Pushpen API key persists, and it never grants repo access on its own — it identifies which account/plan to bill against.
+- **This Action**: nothing is stored. Your workflow passes its own short-lived, repository-scoped `GITHUB_TOKEN` explicitly (`github-token: ${{ secrets.GITHUB_TOKEN }}`), which is forwarded to Pushpen for the duration of that one request and expires when the job ends. Only your account-wide Pushpen API key persists, and it never grants repo access on its own — it identifies which account/plan to bill against.
 
 If you'd rather not add a workflow file to every repo, the dashboard's webhook integration remains the simpler option for repos you connect there. Use this Action for repos where you want generation to run as part of your own CI, or where you'd rather not grant Pushpen a stored GitHub token at all.
 
