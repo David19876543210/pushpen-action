@@ -4,7 +4,7 @@ This file describes what this repository is, for an AI coding agent that encount
 
 ## What this is
 
-`pushpen-action` is the GitHub Action wrapper for [Pushpen](https://pushpen.dev), published on the GitHub Marketplace as `David19876543210/pushpen-action`. It calls Pushpen's hosted generation backend — the same pipeline the pushpen.dev dashboard's OAuth-connected repos use — to generate a README, CHANGELOG, API reference, and/or onboarding guide from a repository's actual code and open a pull request. See this repo's README.md for setup instructions and the full input/output reference; see [pushpen.dev/ai](https://pushpen.dev/ai) or [pushpen.dev/llms-full.txt](https://pushpen.dev/llms-full.txt) for the product as a whole, including the alternative (non-Action) installation path.
+`pushpen-action` is the GitHub Action wrapper for [Pushpen](https://pushpen.dev), published on the GitHub Marketplace as `David19876543210/pushpen-action`. It calls Pushpen's hosted generation backend — the same pipeline the pushpen.dev dashboard's OAuth-connected repos use — to generate a README, CHANGELOG, API reference, and/or onboarding guide from a repository's actual code and open a pull request. See this repo's README.md for setup instructions and the full input/output reference; see [pushpen.dev/ai](https://pushpen.dev/ai) or [pushpen.dev/llms-full.txt](https://pushpen.dev/llms-full.txt) for the product as a whole, including the alternative (non-Action) installation path. The actual endpoint this Action calls (`POST pushpen.dev/api/action/generate-docs`) is documented at [pushpen.dev/api](https://pushpen.dev/api) — request/response shapes, error codes, rate limits.
 
 ## What it requires
 
@@ -16,4 +16,4 @@ It doesn't store any GitHub credential — the token passed to it is used for on
 
 ## Staleness note
 
-This file, the main `pushpen` repo's root `AGENTS.md`, `pushpen.dev/llms.txt`, `pushpen.dev/llms-full.txt`, and `pushpen.dev/ai` all describe the same product and should stay consistent with each other and with `action.yml`/`README.md` in this repo, which are the actual, enforced source of truth for this Action's inputs and behavior.
+This file, the main `pushpen` repo's root `AGENTS.md`, `pushpen.dev/llms.txt`, `pushpen.dev/llms-full.txt`, `pushpen.dev/ai`, and `pushpen.dev/api` all describe the same product and should stay consistent with each other and with `action.yml`/`README.md` in this repo, which are the actual, enforced source of truth for this Action's inputs and behavior.

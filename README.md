@@ -89,6 +89,8 @@ on:
 | `pr-url` | URL of the pull request Pushpen opened, if any. Empty if auto-commit delivered directly, or if nothing was generated. |
 | `connected` | `"true"` on the very first request for a repository (it was just connected to your Pushpen account), `"false"` otherwise. |
 
+This Action is a thin wrapper around one real API endpoint (`POST pushpen.dev/api/action/generate-docs`). Full request/response shapes, error codes, and rate limits: [pushpen.dev/api](https://pushpen.dev/api).
+
 ## First run
 
 The first time this Action runs against a repository, Pushpen automatically connects it to your account (the same repo-count limits your plan enforces on the dashboard apply here too) and generates an initial documentation baseline from the full repository — not a diff, since there's nothing to diff against yet. Every run after that is driven by the actual push, reading only what changed.
